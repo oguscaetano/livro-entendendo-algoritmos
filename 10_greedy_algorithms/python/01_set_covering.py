@@ -1,30 +1,28 @@
-# You pass an array in, and it gets converted to a set.
-states_needed = set(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"])
+estados_abranger = set(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"])
 
-stations = {}
-stations["kone"] = set(["id", "nv", "ut"])
-stations["ktwo"] = set(["wa", "id", "mt"])
-stations["kthree"] = set(["or", "nv", "ca"])
-stations["kfour"] = set(["nv", "ut"])
-stations["kfive"] = set(["ca", "az"])
+estacoes = {}
+estacoes["conjunto1"] = set(["id", "nv", "ut"])
+estacoes["conjunto2"] = set(["wa", "id", "mt"])
+estacoes["conjunto3"] = set(["or", "nv", "ca"])
+estacoes["conjunto4"] = set(["nv", "ut"])
+estacoes["conjunto5"] = set(["ca", "az"])
 
-
-def my_set_covering(states_needed, stations):
-    final_stations = set()
-    while states_needed:
-        best_station = None
-        states_covered = set()
-        for station, states_for_station in stations.items():
-            covered = states_needed & states_for_station
-            if len(covered) > len(states_covered) and station not in final_stations:
-                best_station = station
-                states_covered = covered
-        if best_station is not None:
-            states_needed -= states_covered
-            final_stations.add(best_station)
-            stations.pop(best_station)
+def coberturaEstacoes(estados_abranger, estacoes):
+    estacoes_final = set()
+    while estados_abranger:
+        melhor_estacao = None
+        estados_cobertos = set()
+        for estacao, estados_por_estacao in estacoes.items():
+            cobertos = estados_abranger & estados_por_estacao
+            if len(cobertos) > len(estados_cobertos) and estacao not in estacoes_final:
+                melhor_estacao = estacao
+                estados_cobertos = cobertos
+        if melhor_estacao is not None:
+            estados_abranger -= estados_cobertos
+            estacoes_final.add(melhor_estacao)
+            estacoes.pop(melhor_estacao)
         else:
             return None
-    return final_stations
+    return estacoes_final
 
-print(my_set_covering(states_needed, stations))
+print(coberturaEstacoes(estados_abranger, estacoes))

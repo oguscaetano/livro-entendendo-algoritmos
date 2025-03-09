@@ -1,66 +1,65 @@
 # the graph
-graph = {}
-graph["start"] = {}
-graph["start"]["a"] = 6
-graph["start"]["b"] = 2
+grafo = {}
+grafo["inicio"] = {}
+grafo["inicio"]["a"] = 6
+grafo["inicio"]["b"] = 2
 
-graph["a"] = {}
-graph["a"]["fin"] = 1
+grafo["a"] = {}
+grafo["a"]["fim"] = 1
 
-graph["b"] = {}
-graph["b"]["a"] = 3
-graph["b"]["fin"] = 5
+grafo["b"] = {}
+grafo["b"]["a"] = 3
+grafo["b"]["fim"] = 5
 
-graph["fin"] = {}
+grafo["fim"] = {}
 
 # the costs table
-infinity = float("inf")
-costs = {}
-costs["a"] = 6
-costs["b"] = 2
-costs["fin"] = infinity
+infinito = float("inf")
+custos = {}
+custos["a"] = 6
+custos["b"] = 2
+custos["fim"] = infinito
 
 # the parents table
-parents = {}
-parents["a"] = "start"
-parents["b"] = "start"
-parents["fin"] = None
+pais = {}
+pais["a"] = "inicio"
+pais["b"] = "inicio"
+pais["fim"] = None
 
-processed = []
+processados = []
 
-def find_lowest_cost_node(costs):
-    lowest_cost = float("inf")
-    lowest_cost_node = None
+def ache_custo_mais_baixo(custos):
+    custo_mais_baixo = float("inf")
+    node_custo_mais_baixo = None
     # Go through each node.
-    for node in costs:
-        cost = costs[node]
+    for node in custos:
+        custo = custos[node]
         # If it's the lowest cost so far and hasn't been processed yet...
-        if cost < lowest_cost and node not in processed:
+        if custo < custo_mais_baixo and node not in processados:
             # ... set it as the new lowest-cost node.
-            lowest_cost = cost
-            lowest_cost_node = node
-    return lowest_cost_node
+            custo_mais_baixo = custo
+            node_custo_mais_baixo = node
+    return node_custo_mais_baixo
 
 # Find the lowest-cost node that you haven't processed yet.
-node = find_lowest_cost_node(costs)
+node = ache_custo_mais_baixo(custos)
 # If you've processed all the nodes, this while loop is done.
 while node is not None:
-    cost = costs[node]
+    custo = custos[node]
     # Go through all the neighbors of this node.
-    neighbors = graph[node]
-    for n in neighbors.keys():
-        new_cost = cost + neighbors[n]
+    vizinhos = grafo[node]
+    for n in vizinhos.keys():
+        novo_custo = custo + vizinhos[n]
         # If it's cheaper to get to this neighbor by going through this node...
-        if costs[n] > new_cost:
+        if custos[n] > novo_custo:
             # ... update the cost for this node.
-            costs[n] = new_cost
+            custos[n] = novo_custo
             # This node becomes the new parent for this neighbor.
-            parents[n] = node
+            pais[n] = node
     # Mark the node as processed.
-    processed.append(node)
+    processados.append(node)
     # Find the next node to process, and loop.
-    node = find_lowest_cost_node(costs)
+    node = ache_custo_mais_baixo(custos)
 
-print("Cost from the start to each node:")
-print(costs)
+print(custos)
 
